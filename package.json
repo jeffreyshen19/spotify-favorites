@@ -1,0 +1,21 @@
+{
+  "name": "spotify-favorites",
+  "version": "1.0.0",
+  "description": "Automatically generate a playlist on spotify of favorite songs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeffrey Shen <jeffreyshencc@gmail.com> (http://jeffreyshen.com)",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.5",
+    "pug": "^2.0.3",
+    "querystring": "^0.2.0",
+    "request": "^2.87.0"
+  }
+}

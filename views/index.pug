@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Example of the Authorization Code flow with Spotify
+    link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
+    style(type="text/css" rel = "stylesheet" href = "/main.css")
+  body
+    .container
+      #login
+        h1 Automatically generate a playlist of favorite songs
+        a.btn.btn-primary(href="/login") Log in with Spotify
+      #loggedin
+        h1#header-logged-in
+        p All set! The playlist will be updated every 24 hours.
+        a#unsubscribe() Unsubscribe
+    script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js")
+    script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+    script(src="/main.js")
+      
