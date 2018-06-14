@@ -283,6 +283,7 @@ app.get("/generate_playlist", function(req, res){
         generatePlaylist(user.refresh_token, user.user_id, user.playlist_id);
       });
     });
+    res.send("success");
   }
   else{
     res.send("Error: Incorrect secret");
