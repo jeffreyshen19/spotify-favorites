@@ -169,7 +169,7 @@ function populatePlaylist(access_token, user_id, playlist_id){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      "description": "Last updated " + (new Date()).toUTCString()
+      "description": "Last updated " + (new Date()).toUTCString() + " • spotify-favorites.herokuapp.com" 
     }),
     dataType: "json"
   }, function(error, response, body){
