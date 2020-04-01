@@ -190,7 +190,7 @@ function populatePlaylist(access_token, user_id, playlist_id){
     });
 
     request.post({
-      url: "https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + encodeURI(user_id) + "/playlists/" + playlist_id + "/tracks",
       headers: {
         'Authorization': 'Bearer ' + access_token,
         "Content-Type": "application/json"
@@ -221,7 +221,7 @@ function generatePlaylist(refresh_token, user_id, playlist_id){
       playlistExists(access_token, playlist_id, function(exists){
         if(exists){ //If the playlist exists, just clear it and add new elements
           request.get({
-            url: 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks',
+            url: 'https://api.spotify.com/v1/users/' + encodeURI(user_id) + '/playlists/' + playlist_id + '/tracks',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           }, function(error, response, body) {
@@ -230,7 +230,7 @@ function generatePlaylist(refresh_token, user_id, playlist_id){
             });
 
             request.delete({
-              url: 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks',
+              url: 'https://api.spotify.com/v1/users/' + encodeURI(user_id) + '/playlists/' + playlist_id + '/tracks',
               headers: {
                 'Authorization': 'Bearer ' + access_token,
                 "Content-Type": "application/json"
@@ -246,7 +246,7 @@ function generatePlaylist(refresh_token, user_id, playlist_id){
         }
         else{
           request.post({
-            url: "https://api.spotify.com/v1/users/" + user_id + "/playlists",
+            url: "https://api.spotify.com/v1/users/" + encodeURI(user_id) + "/playlists",
             headers: {
               'Authorization': 'Bearer ' + access_token,
               "Content-Type": "application/json"
