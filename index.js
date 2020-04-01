@@ -256,6 +256,7 @@ function generatePlaylist(refresh_token, user_id, playlist_id){
             }),
             dataType: "json"
           }, function(error, response, body){
+            console.log(user_id);
             console.log(error);
             console.log(response);
             console.log(body);
