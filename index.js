@@ -256,6 +256,8 @@ function generatePlaylist(refresh_token, user_id, playlist_id){
             }),
             dataType: "json"
           }, function(error, response, body){
+            console.log(error);
+            console.log(response);
             console.log(body);
             playlist_id = JSON.parse(body).id;
             User.update({user_id: user_id}, {
