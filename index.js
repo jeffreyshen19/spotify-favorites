@@ -1,13 +1,13 @@
 var express = require("express");
 var mongoose = require("mongoose");
-var request = require('request'); // "Request" library
+var request = require('request'); 
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/spotify_favorites', function(err, res) {
+mongoose.connect(process.env.DB_URI || 'mongodb://localhost/spotify_favorites', function(err, res) {
   if(err) console.log("ERROR connecting to database");
   else console.log("SUCCESSfully connected to database");
 });
@@ -169,7 +169,7 @@ function populatePlaylist(access_token, user_id, playlist_id){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      "description": "Last updated " + (new Date()).toUTCString() + " • spotify-favorites.herokuapp.com" 
+      "description": "Last updated " + (new Date()).toUTCString() + " • spotify-favorites.herokuapp.com"
     }),
     dataType: "json"
   }, function(error, response, body){
