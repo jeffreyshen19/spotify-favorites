@@ -1,6 +1,6 @@
 var express = require("express");
 var mongoose = require("mongoose");
-var request = require('request'); 
+var request = require('request');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -162,6 +162,8 @@ function playlistExists(access_token, playlist_id, callback){
 //Adds the top 15 songs to the playlist
 function populatePlaylist(access_token, user_id, playlist_id){
   //Change description
+  let d = new Date();
+
   request.put({
     url: 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id,
     headers: {
@@ -169,7 +171,7 @@ function populatePlaylist(access_token, user_id, playlist_id){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      "description": "Last updated " + (new Date()).toUTCString() + " • spotify-favorites.herokuapp.com"
+      "description": `Last updated ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()} • spotify-favorites.herokuapp.com`
     }),
     dataType: "json"
   }, function(error, response, body){
