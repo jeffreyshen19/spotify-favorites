@@ -30,7 +30,7 @@ async function playlistExists(access_token, playlist_id){
 */
 async function populatePlaylist(access_token, user_id, playlist_id){
   let d = new Date(),
-      topTracks = (await rp({
+      tracks = (await rp({
         uri: 'https://api.spotify.com/v1/me/top/tracks',
         headers: { 'Authorization': 'Bearer ' + access_token },
         qs: {
@@ -42,7 +42,7 @@ async function populatePlaylist(access_token, user_id, playlist_id){
 
   //Change description
   await rp({
-    uri: 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id,
+    uri: 'https://api.spotify.com/v1/users/' + encodeURI(user_id) + '/playlists/' + playlist_id,
     headers: { 'Authorization': 'Bearer ' + access_token, "Content-Type": "application/json" },
     body: JSON.stringify({
       "description": `Last updated ${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()} • spotify-favorites.herokuapp.com`
@@ -52,14 +52,14 @@ async function populatePlaylist(access_token, user_id, playlist_id){
   });
 
   // Add New Tracks
-  await rp({
+  if(tracks.length) await rp({
     uri: "https://api.spotify.com/v1/users/" + encodeURI(user_id) + "/playlists/" + playlist_id + "/tracks",
     headers: {
       'Authorization': 'Bearer ' + access_token,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      "uris": topTracks
+      "uris": tracks
     }),
     method: "POST",
     dataType: "json"
@@ -78,7 +78,7 @@ async function clearPlaylist(access_token, user_id, playlist_id){
     return {"uri": d.track.uri}
   });
 
-  await rp({
+  if(tracks.length) await rp({
     uri: 'https://api.spotify.com/v1/users/' + encodeURI(user_id) + '/playlists/' + playlist_id + '/tracks',
     headers: { 'Authorization': 'Bearer ' + access_token, "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -119,16 +119,24 @@ async function createPlaylist(access_token, user_id){
 
 async function generatePlaylist(refresh_token, user_id, playlist_id){
   //Make sure the access token is up to date
-  let access_token = (await rp({
-    uri: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true,
-    method: "POST"
-  })).access_token;
+  let access_token;
+
+  try{
+    access_token = (await rp({
+      uri: 'https://accounts.spotify.com/api/token',
+      headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+      form: {
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token
+      },
+      json: true,
+      method: "POST"
+    })).access_token;
+  }
+  catch{
+    return;
+  }
+
 
   if(await playlistExists(access_token, playlist_id)) await clearPlaylist(access_token, user_id, playlist_id);
   else playlist_id = await createPlaylist(access_token, user_id);
