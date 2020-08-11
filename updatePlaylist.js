@@ -16,7 +16,12 @@ async function bulkUpdate(){
   let users = await User.find();
 
   for(const user of users){
-    await spotify.generatePlaylist(user.refresh_token, user.user_id, user.playlist_id);
+    try {
+      await spotify.generatePlaylist(user.refresh_token, user.user_id, user.playlist_id);
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
   mongoose.connection.close();
