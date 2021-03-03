@@ -14,7 +14,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "mongoose": "^5.1.5",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "querystring": "^0.2.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.5"
